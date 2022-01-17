@@ -1,0 +1,29 @@
+{
+    "name": "yaangvu/lumen-generator",
+    "description": "A Lumen Generator You Are Missing",
+    "type": "library",
+    "require": {
+        "illuminate/support": "^7|^8|^9",
+        "illuminate/console": "^7|^8|^9",
+        "illuminate/filesystem": "^7|^8|^9",
+        "symfony/var-dumper": "^6.0",
+        "psy/psysh": "^0.11",
+        "classpreloader/classpreloader": "^4.2"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "YaangVu",
+            "email": "yaangvu@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "YaangVu\\LumenGenerator\\": "src/"
+        }
+    },
+    "suggest": {
+        "anik/form-request": "Required to use form request in Lumen."
+    },
+    "fork": "https://github.com/flipboxstudio/lumen-generator"
+}
