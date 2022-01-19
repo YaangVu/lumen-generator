@@ -1,0 +1,19 @@
+<?php
+
+namespace DummyNamespace;
+
+use DummyFullModelClass;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use YaangVu\LaravelBase\Services\BaseService;
+
+class DummyClass extends BaseService
+{
+
+    public Model|Builder|DummyModelClass $model;
+
+    function initModel(): void
+    {
+        $this->model = new DummyModelClass();
+    }
+}

@@ -136,15 +136,14 @@ abstract class GeneratorCommand extends Command
      */
     protected function getPath($name)
     {
-        $name = Str::replaceFirst($this->rootNamespace(), '', $name);
-
-        return $this->laravel['path'] . '/' . str_replace('\\', '/', $name) . '.php';
+        return $this->laravel->basePath() . '/' . NamespaceGenerator::getPath($name, $this->type);
     }
 
     /**
      * Build the directory for the class if necessary.
      *
      * @param string $path
+     *
      *
      * @return string
      */
@@ -200,7 +199,7 @@ abstract class GeneratorCommand extends Command
      */
     protected function getNamespace($name)
     {
-        return trim(implode('\\', array_slice(explode('\\', $name), 0, -1)), '\\');
+        return NamespaceGenerator::generateNamespace($name, $this->type);
     }
 
     /**
@@ -213,7 +212,7 @@ abstract class GeneratorCommand extends Command
      */
     protected function replaceClass($stub, $name)
     {
-        $class = str_replace($this->getNamespace($name) . '\\', '', $name);
+        $class = NamespaceGenerator::generateClass($name, $this->type);
 
         return str_replace('DummyClass', $class, $stub);
     }
@@ -255,7 +254,10 @@ abstract class GeneratorCommand extends Command
      */
     protected function rootNamespace()
     {
-        return $this->laravel->getNamespace();
+        if (in_array($this->type, ['Model', 'Controller', 'Service']))
+            return NamespaceGenerator::$rootNamespace;
+        else
+            return $this->laravel->getNamespace();
     }
 
     /**
