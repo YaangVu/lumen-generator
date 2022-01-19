@@ -2,8 +2,10 @@
 
 namespace YaangVu\LumenGenerator\Console;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
+use YaangVu\LumenGenerator\NamespaceGenerator;
 
 class ModelMakeCommand extends GeneratorCommand
 {
@@ -31,20 +33,22 @@ class ModelMakeCommand extends GeneratorCommand
     /**
      * Execute the console command.
      *
-     * @return void
+     * @return bool|null
+     * @throws FileNotFoundException
      */
-    public function handle()
+    public function handle(): ?bool
     {
-        if (parent::handle() === false && ! $this->option('force')) {
+        if (parent::handle() === false && !$this->option('force')) {
             return false;
         }
 
-        if ($this->option('all')) {
+        if ($this->option('all') || $this->option('base')) {
             $this->input->setOption('factory', true);
             $this->input->setOption('seed', true);
             $this->input->setOption('migration', true);
             $this->input->setOption('controller', true);
             $this->input->setOption('resource', true);
+            $this->input->setOption('service', true);
         }
 
         if ($this->option('factory')) {
@@ -62,6 +66,12 @@ class ModelMakeCommand extends GeneratorCommand
         if ($this->option('controller') || $this->option('resource') || $this->option('api')) {
             $this->createController();
         }
+
+        if ($this->option('service')) {
+            $this->createService();
+        }
+
+        return true;
     }
 
     /**
@@ -71,11 +81,14 @@ class ModelMakeCommand extends GeneratorCommand
      */
     protected function createFactory()
     {
-        $factory = Str::studly(class_basename($this->argument('name')));
+        $name       = Str::studly($this->argument('name'));
+        $arrName    = NamespaceGenerator::parseNameInput($name);
+        $factory    = $arrName['hasSub'] ? ($arrName['first'] . '/' . $arrName['last']) : $arrName['first'];
+        $modelClass = NamespaceGenerator::generateFullNamespace($name, 'Model');
 
         $this->call('make:factory', [
-            'name' => "{$factory}Factory",
-            '--model' => $this->qualifyClass($this->getNameInput()),
+            'name'    => "{$factory}Factory",
+            '--model' => $modelClass,
         ]);
     }
 
@@ -93,7 +106,7 @@ class ModelMakeCommand extends GeneratorCommand
         }
 
         $this->call('make:migration', [
-            'name' => "create_{$table}_table",
+            'name'     => "create_{$table}_table",
             '--create' => $table,
         ]);
     }
@@ -119,15 +132,35 @@ class ModelMakeCommand extends GeneratorCommand
      */
     protected function createController()
     {
-        $controller = Str::studly(class_basename($this->argument('name')));
-
-        $modelName = $this->qualifyClass($this->getNameInput());
+        $name       = Str::studly($this->argument('name'));
+        $arrName    = NamespaceGenerator::parseNameInput($name);
+        $controller = $arrName['hasSub'] ? ($arrName['first'] . '/' . $arrName['last']) : $arrName['first'];
+        $modelClass = NamespaceGenerator::generateFullNamespace($name, 'Model');
 
         $this->call('make:controller', array_filter([
-            'name'  => "{$controller}Controller",
-            '--model' => $this->option('resource') || $this->option('api') ? $modelName : null,
-            '--api' => $this->option('api'),
-        ]));
+                                                        'name'    => "{$controller}Controller",
+                                                        '--model' => $this->option('resource') || $this->option('api') ? $modelClass : null,
+                                                        '--api'   => $this->option('api'),
+                                                        '--base'  => $this->option('base'),
+                                                    ]));
+    }
+
+    /**
+     * Create a controller for the model.
+     *
+     * @return void
+     */
+    protected function createService()
+    {
+        $name       = Str::studly($this->argument('name'));
+        $arrName    = NamespaceGenerator::parseNameInput($name);
+        $service    = $arrName['hasSub'] ? ($arrName['first'] . '/' . $arrName['last']) : $arrName['first'];
+        $modelClass = NamespaceGenerator::generateFullNamespace($name, 'Model');
+
+        $this->call('make:service', array_filter([
+                                                     'name'    => "{$service}Service",
+                                                     '--model' => $modelClass,
+                                                 ]));
     }
 
     /**
@@ -135,7 +168,7 @@ class ModelMakeCommand extends GeneratorCommand
      *
      * @return string
      */
-    protected function getStub()
+    protected function getStub(): string
     {
         $stub = $this->option('pivot')
             ? '/stubs/model.pivot.stub'
@@ -145,25 +178,11 @@ class ModelMakeCommand extends GeneratorCommand
     }
 
     /**
-     * Get the default namespace for the class.
-     *
-     * @param string $rootNamespace
-     *
-     * @return string
-     */
-    protected function getDefaultNamespace($rootNamespace)
-    {
-        return is_dir($this->laravel->basePath('app/Models'))
-            ? $rootNamespace.'\\Models'
-            : $rootNamespace;
-    }
-
-    /**
      * Get the console command options.
      *
      * @return array
      */
-    protected function getOptions()
+    protected function getOptions(): array
     {
         return [
             ['all', 'a', InputOption::VALUE_NONE, 'Generate a migration, seeder, factory, and resource controller for the model'],
@@ -172,9 +191,11 @@ class ModelMakeCommand extends GeneratorCommand
             ['force', null, InputOption::VALUE_NONE, 'Create the class even if the model already exists'],
             ['migration', 'm', InputOption::VALUE_NONE, 'Create a new migration file for the model'],
             ['seed', 's', InputOption::VALUE_NONE, 'Create a new seeder file for the model'],
+            ['service', 'sv', InputOption::VALUE_OPTIONAL, 'Create a new service business file for the model'],
             ['pivot', 'p', InputOption::VALUE_NONE, 'Indicates if the generated model should be a custom intermediate table model'],
             ['resource', 'r', InputOption::VALUE_NONE, 'Indicates if the generated controller should be a resource controller'],
             ['api', null, InputOption::VALUE_NONE, 'Indicates if the generated controller should be an API controller'],
+            ['base', 'b', InputOption::VALUE_NONE, 'Indicates if the generated controller should be an Base controller'],
         ];
     }
 }

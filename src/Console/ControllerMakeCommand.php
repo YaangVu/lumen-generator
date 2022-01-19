@@ -5,7 +5,9 @@ namespace YaangVu\LumenGenerator\Console;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
+use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Console\Input\InputOption;
+use YaangVu\LumenGenerator\NamespaceGenerator;
 
 class ControllerMakeCommand extends GeneratorCommand
 {
@@ -35,7 +37,7 @@ class ControllerMakeCommand extends GeneratorCommand
      *
      * @return string
      */
-    protected function getStub()
+    protected function getStub(): string
     {
         $stub = null;
 
@@ -51,24 +53,17 @@ class ControllerMakeCommand extends GeneratorCommand
 
         if ($this->option('api') && is_null($stub)) {
             $stub = '/stubs/controller.api.stub';
-        } elseif ($this->option('api') && ! is_null($stub) && ! $this->option('invokable')) {
+        } elseif ($this->option('api') && !is_null($stub) && !$this->option('invokable')) {
             $stub = str_replace('.stub', '.api.stub', $stub);
         }
 
-        $stub = isset($stub) ? $stub : '/stubs/controller.plain.stub';
+        if ($this->option('base')) {
+            $stub = '/stubs/controller.base.stub';
+        }
 
-        return __DIR__.$stub;
-    }
+        $stub = $stub ?? '/stubs/controller.plain.stub';
 
-    /**
-     * Get the default namespace for the class.
-     *
-     * @param  string  $rootNamespace
-     * @return string
-     */
-    protected function getDefaultNamespace($rootNamespace)
-    {
-        return $rootNamespace.'\Http\Controllers';
+        return __DIR__ . $stub;
     }
 
     /**
@@ -81,7 +76,7 @@ class ControllerMakeCommand extends GeneratorCommand
      * @return string
      * @throws FileNotFoundException
      */
-    protected function buildClass($name)
+    protected function buildClass($name): string
     {
         $controllerNamespace = $this->getNamespace($name);
 
@@ -95,7 +90,11 @@ class ControllerMakeCommand extends GeneratorCommand
             $replace = $this->buildModelReplacements($replace);
         }
 
-        $replace["use {$controllerNamespace}\Controller;\n"] = '';
+        $replace["use $controllerNamespace\Controller;\n"] = '';
+
+        if ($this->option('service')) {
+            $replace = $this->buildServiceReplacements();
+        }
 
         return str_replace(
             array_keys($replace), array_values($replace), parent::buildClass($name)
@@ -107,55 +106,69 @@ class ControllerMakeCommand extends GeneratorCommand
      *
      * @return array
      */
-    protected function buildParentReplacements()
+    #[ArrayShape(['ParentDummyFullModelClass' => "mixed|string", 'ParentDummyModelClass' => "string", 'ParentDummyModelVariable' => "string"])]
+    protected function buildParentReplacements(): array
     {
         $parentModelClass = $this->parseModel($this->option('parent'));
 
-        if (! class_exists($parentModelClass)) {
-            if ($this->confirm("A {$parentModelClass} model does not exist. Do you want to generate it?", true)) {
+        if (!class_exists($parentModelClass)) {
+            if ($this->confirm("A $parentModelClass model does not exist. Do you want to generate it?", true)) {
                 $this->call('make:model', ['name' => $parentModelClass]);
             }
         }
 
         return [
             'ParentDummyFullModelClass' => $parentModelClass,
-            'ParentDummyModelClass' => class_basename($parentModelClass),
-            'ParentDummyModelVariable' => lcfirst(class_basename($parentModelClass)),
+            'ParentDummyModelClass'     => class_basename($parentModelClass),
+            'ParentDummyModelVariable'  => lcfirst(class_basename($parentModelClass)),
         ];
     }
 
+
     /**
-     * Build the model replacement values.
+     * Build the service replacement values.
      *
-     * @param  array  $replace
+     *
      * @return array
      */
-    protected function buildModelReplacements(array $replace)
+    #[ArrayShape(['DummyFullModelClass' => "mixed|string", 'DummyModelClass' => "string", 'DummyModelVariable' => "string"])]
+    protected function buildServiceReplacements(): array
     {
-        $modelClass = $this->parseModel($this->option('model'));
+        $name    = $this->getNameInput();
+        $service = $this->option('service');
+        $service = $service == $name ? $service : "$name/$service";
 
-        if (! class_exists($modelClass)) {
-            if ($this->confirm("A {$modelClass} model does not exist. Do you want to generate it?", true)) {
-                $this->call('make:model', ['name' => $modelClass]);
+        $fullServiceClass = NamespaceGenerator::generateFullNamespace("$service", 'Service');
+        $serviceClass     = NamespaceGenerator::generateClass($service, 'Service');
+        $serviceVariable  = lcfirst(class_basename($serviceClass));
+
+        if (!class_exists($fullServiceClass)) {
+            if ($this->confirm("A $fullServiceClass service does not exist. Do you want to generate it?", true)) {
+                $this->call('make:service', [
+                    'name'    => $service,
+                    '--model' => $this->option('model') ? $this->option('model') : null
+                ]);
             }
         }
 
-        return array_merge($replace, [
-            'DummyFullModelClass' => $modelClass,
-            'DummyModelClass' => class_basename($modelClass),
-            'DummyModelVariable' => lcfirst(class_basename($modelClass)),
-        ]);
+        return [
+            'DummyFullModelClass' => $fullServiceClass,
+            'DummyModelClass'     => $serviceClass,
+            'DummyModelVariable'  => $serviceVariable,
+        ];
     }
+
 
     /**
      * Get the fully-qualified model class name.
      *
-     * @param  string  $model
+     * @param string $model
+     *
      * @return string
      *
      * @throws InvalidArgumentException
      */
-    protected function parseModel($model)
+    protected function parseModel(string $model): string
     {
         if (preg_match('([^A-Za-z0-9_/\\\\])', $model)) {
             throw new InvalidArgumentException('Model name contains invalid characters.');
@@ -163,8 +176,8 @@ class ControllerMakeCommand extends GeneratorCommand
 
         $model = trim(str_replace('/', '\\', $model), '\\');
 
-        if (! Str::startsWith($model, $rootNamespace = $this->laravel->getNamespace())) {
-            $model = $rootNamespace.$model;
+        if (!Str::startsWith($model, $rootNamespace = $this->laravel->getNamespace())) {
+            $model = $rootNamespace . $model;
         }
 
         return $model;
@@ -175,15 +188,48 @@ class ControllerMakeCommand extends GeneratorCommand
      *
      * @return array
      */
-    protected function getOptions()
+    protected function getOptions(): array
     {
         return [
             ['api', null, InputOption::VALUE_NONE, 'Exclude the create and edit methods from the controller.'],
             ['force', null, InputOption::VALUE_NONE, 'Create the class even if the controller already exists'],
             ['invokable', 'i', InputOption::VALUE_NONE, 'Generate a single method, invokable controller class.'],
             ['model', 'm', InputOption::VALUE_OPTIONAL, 'Generate a resource controller for the given model.'],
+            ['service', 'sv', InputOption::VALUE_OPTIONAL, 'Create a new service business file for the model'],
             ['parent', 'p', InputOption::VALUE_OPTIONAL, 'Generate a nested resource controller class.'],
             ['resource', 'r', InputOption::VALUE_NONE, 'Generate a resource controller class.'],
+            ['base', 'b', InputOption::VALUE_NONE, 'Generate a base controller class.'],
         ];
+    }
+
+    /**
+     * @Description
+     *
+     * @Author yaangvu
+     * @Date   Jan 19, 2022
+     *
+     * @param string $stub
+     * @param string $name
+     *
+     * @return $this
+     */
+    protected function replaceNamespace(&$stub, $name): static
+    {
+        $searches = [
+            ['ServiceNamespace', 'ServiceClass'],
+            ['{{ serviceNamespace }}', '{{ serviceClass }}'],
+            ['{{serviceNamespace}}', '{{ serviceClass }}']
+        ];
+
+        foreach ($searches as $search) {
+            $stub = str_replace(
+                $search,
+                [NamespaceGenerator::generateFullNamespace($name, 'Service'),
+                 NamespaceGenerator::generateClass($name, 'Service')],
+                $stub
+            );
+        }
+
+        return parent::replaceNamespace($stub, $name);
     }
 }

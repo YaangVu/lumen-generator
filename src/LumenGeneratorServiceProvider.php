@@ -19,44 +19,47 @@ class LumenGeneratorServiceProvider extends ServiceProvider
      *
      * @var array
      */
-    protected $commands = [
-        'KeyGenerate' => 'command.key.generate',
-        'Tinker' => 'command.tinker',
-        'RouteList' => 'command.route.list',
-        'ClearCompiled' => 'command.clear.compiled',
-        'Optimize' => 'command.optimize',
-        'FactoryMake' => 'command.factory.make',
-    ];
+    protected $commands
+        = [
+            'KeyGenerate'   => 'command.key.generate',
+            'Tinker'        => 'command.tinker',
+            'RouteList'     => 'command.route.list',
+            'ClearCompiled' => 'command.clear.compiled',
+            'Optimize'      => 'command.optimize',
+            'FactoryMake'   => 'command.factory.make',
+        ];
 
     /**
      * The commands to be registered.
      *
      * @var array
      */
-    protected $devCommands = [
-        'ConsoleMake' => 'command.console.make',
-        'ControllerMake' => 'command.controller.make',
-        'EventMake' => 'command.event.make',
-        'ExceptionMake' => 'command.exception.make',
-        'RequestMake' => 'command.request.make',
-        'JobMake' => 'command.job.make',
-        'ListenerMake' => 'command.listener.make',
-        'MailMake' => 'command.mail.make',
-        'MiddlewareMake' => 'command.middleware.make',
-        'PipeMake' => 'command.pipe.make',
-        'ModelMake' => 'command.model.make',
-        'PolicyMake' => 'command.policy.make',
-        'ProviderMake' => 'command.provider.make',
-        'Serve' => 'command.serve',
-        'TestMake' => 'command.test.make',
-        'ResourceMake' => 'command.resource.make',
-        'NotificationMake' => 'command.notification.make',
-        'NotificationTable' => 'command.notification.table',
-        'ChannelMake' => 'command.channel.make',
-        'SchemaDump' => 'command.schema.dump',
-        'CastMake' => 'command.cast.make',
-        'RuleMake' => 'command.rule.make',
-    ];
+    protected $devCommands
+        = [
+            'ConsoleMake'       => 'command.console.make',
+            'ControllerMake'    => 'command.controller.make',
+            'ServiceMake'       => 'command.service.make',
+            'EventMake'         => 'command.event.make',
+            'ExceptionMake'     => 'command.exception.make',
+            'RequestMake'       => 'command.request.make',
+            'JobMake'           => 'command.job.make',
+            'ListenerMake'      => 'command.listener.make',
+            'MailMake'          => 'command.mail.make',
+            'MiddlewareMake'    => 'command.middleware.make',
+            'PipeMake'          => 'command.pipe.make',
+            'ModelMake'         => 'command.model.make',
+            'PolicyMake'        => 'command.policy.make',
+            'ProviderMake'      => 'command.provider.make',
+            'Serve'             => 'command.serve',
+            'TestMake'          => 'command.test.make',
+            'ResourceMake'      => 'command.resource.make',
+            'NotificationMake'  => 'command.notification.make',
+            'NotificationTable' => 'command.notification.table',
+            'ChannelMake'       => 'command.channel.make',
+            'SchemaDump'        => 'command.schema.dump',
+            'CastMake'          => 'command.cast.make',
+            'RuleMake'          => 'command.rule.make',
+        ];
 
     /**
      * Register the service provider.
@@ -121,7 +124,7 @@ class LumenGeneratorServiceProvider extends ServiceProvider
         $this->app->singleton('command.optimize', function ($app) {
             $app->configure('compile');
 
-            $app['config']->set('optimizer', require_once(__DIR__.'/config/optimizer.php'));
+            $app['config']->set('optimizer', require_once(__DIR__ . '/config/optimizer.php'));
 
             return new Console\OptimizeCommand(new Composer($app['files']));
         });
@@ -144,6 +147,16 @@ class LumenGeneratorServiceProvider extends ServiceProvider
     {
         $this->app->singleton('command.controller.make', function ($app) {
             return new Console\ControllerMakeCommand($app['files']);
+        });
+    }
+
+    /**
+     * Register the command.
+     */
+    protected function registerServiceMakeCommand()
+    {
+        $this->app->singleton('command.service.make', function ($app) {
+            return new Console\ServiceMakeCommand($app['files']);
         });
     }
 
