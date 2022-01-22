@@ -4,6 +4,12 @@ namespace DummyNamespace;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @Author      yaangvu
+ * @Date        DummyDate
+ *
+ * @OA\Schema (required={}, @OA\Xml(name="DummyClass"))
+ */
 class DummyClass extends Model
 {
     //

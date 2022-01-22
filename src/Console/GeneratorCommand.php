@@ -4,6 +4,7 @@ namespace YaangVu\LumenGenerator\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Console\Input\InputArgument;
@@ -182,8 +183,13 @@ abstract class GeneratorCommand extends Command
     protected function replaceNamespace(&$stub, $name)
     {
         $stub = str_replace(
-            ['DummyNamespace', 'DummyRootNamespace', 'NamespacedDummyUserModel'],
-            [$this->getNamespace($name), $this->rootNamespace(), $this->userProviderModel()],
+            ['DummyNamespace', 'DummyRootNamespace', 'NamespacedDummyUserModel', 'DummyDate'],
+            [
+                $this->getNamespace($name),
+                $this->rootNamespace(),
+                $this->userProviderModel(),
+                Carbon::now()->toFormattedDateString()
+            ],
             $stub
         );
 
@@ -314,6 +320,8 @@ abstract class GeneratorCommand extends Command
             'DummyFullModelClass' => $fullModelClass,
             'DummyModelClass'     => $modelClass,
             'DummyModelVariable'  => $modelVariable,
+            'DummyPath'           => Str::plural(Str::lower($modelClass)),
+            'DummyTag'            => $modelClass
         ]);
     }
 }
