@@ -479,7 +479,7 @@ class DummyClass extends BaseController
     }
 
     /**
-     * @Description Remove the multiple specified DummyModelClasss from storage by ids
+     * @Description Remove the multiple specified DummyModelClass from storage by ids
      *
      * @Author      yaangvu
      * @Date        DummyDate
@@ -501,7 +501,7 @@ class DummyClass extends BaseController
      *       @OA\Property(
      *         type="array",
      *         property="ids",
-     *         description="Tempalte id",
+     *         description="Template id",
      *         @OA\Items(),
      *       )
      *      )
@@ -542,7 +542,7 @@ class DummyClass extends BaseController
     }
 
     /**
-     * @Description Remove the multiple specified DummyModelClasss from storage by uuids
+     * @Description Remove the multiple specified DummyModelClass from storage by uuids
      *
      * @Author      yaangvu
      * @Date        DummyDate
@@ -563,7 +563,7 @@ class DummyClass extends BaseController
      *       @OA\Property(
      *         type="array",
      *         property="uuids",
-     *         description="Tempalte uuid",
+     *         description="Template uuid",
      *         @OA\Items(),
      *       )
      *      )
