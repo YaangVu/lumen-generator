@@ -260,7 +260,7 @@ abstract class GeneratorCommand extends Command
      */
     protected function rootNamespace()
     {
-        if (in_array($this->type, ['Model', 'Controller', 'Service']))
+        if (in_array($this->type, ['Model', 'Controller', 'Service', 'Factory']))
             return NamespaceGenerator::$rootNamespace;
         else
             return $this->laravel->getNamespace();

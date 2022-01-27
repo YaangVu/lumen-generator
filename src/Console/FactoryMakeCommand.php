@@ -3,6 +3,7 @@
 namespace YaangVu\LumenGenerator\Console;
 
 use Symfony\Component\Console\Input\InputOption;
+use YaangVu\LumenGenerator\NamespaceGenerator;
 
 class FactoryMakeCommand extends GeneratorCommand
 {
@@ -34,20 +35,21 @@ class FactoryMakeCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-        return __DIR__.'/stubs/factory.stub';
+        return __DIR__ . '/stubs/factory.stub';
     }
 
     /**
      * Build the class with the given name.
      *
-     * @param  string  $name
+     * @param string $name
+     *
      * @return string
      */
     protected function buildClass($name)
     {
         $namespaceModel = $this->option('model')
-                        ? $this->qualifyClass($this->option('model'))
-                        : trim($this->rootNamespace(), '\\').'\\Model';
+            ? $this->qualifyClass($this->option('model'))
+            : trim($this->rootNamespace(), '\\') . '\\Model';
 
         $model = class_basename($namespaceModel);
 
@@ -67,16 +69,18 @@ class FactoryMakeCommand extends GeneratorCommand
     /**
      * Get the destination class path.
      *
-     * @param  string  $name
+     * @param string $name
+     *
      * @return string
      */
     protected function getPath($name)
     {
-        $name = str_replace(
-            ['\\', '/'], '', $this->argument('name')
-        );
+        // $name = str_replace(
+        //     ['\\', '/'], '', $this->argument('name')
+        // );
+        $name = NamespaceGenerator::parseNameInput($this->argument('name'))['last'];
 
-        return $this->laravel->databasePath()."/factories/{$name}.php";
+        return $this->laravel->databasePath() . "/factories/{$name}.php";
     }
 
     /**
