@@ -80,7 +80,7 @@ class FactoryMakeCommand extends GeneratorCommand
         // );
         $name = NamespaceGenerator::parseNameInput($this->argument('name'))['last'];
 
-        return $this->laravel->databasePath() . "/factories/{$name}.php";
+        return $this->laravel->databasePath() . "/factories/{$name}Factory.php";
     }
 
     /**
