@@ -39,7 +39,7 @@ class DummyClass extends BaseController
      * @OA\Get (
      *   tags={"DummyTag"},
      *   path="/DummyPath",
-     *   operationId="index",
+     *   operationId="indexDummyModelClass",
      *   summary="Get all DummyModelClass",
      *   description="Get all DummyModelClass",
      *   @OA\Parameter(
@@ -123,7 +123,7 @@ class DummyClass extends BaseController
      *
      * @OA\Get(
      *    path="/DummyPath/{id}",
-     *    operationId="show",
+     *    operationId="showDummyModelClass",
      *    tags={"DummyTag"},
      *    summary="Get by id DummyModelClass",
      *    description="Get by id DummyModelClass",
@@ -180,7 +180,7 @@ class DummyClass extends BaseController
      *
      * @OA\Post(
      *   path="/DummyPath",
-     *   operationId="store",
+     *   operationId="storeDummyModelClass",
      *   tags={"DummyTag"},
      *   summary="Add DummyModelClass",
      *   description="Add DummyModelClass",
@@ -240,7 +240,7 @@ class DummyClass extends BaseController
      *
      * @OA\Patch (
      *   path="/DummyPath/{id}",
-     *   operationId="update",
+     *   operationId="updateDummyModelClass",
      *   tags={"DummyTag"},
      *   summary="Update patch DummyModelClass",
      *   description="Update patch DummyModelClass",
@@ -306,7 +306,7 @@ class DummyClass extends BaseController
      *
      * @OA\Put (
      *   path="/DummyPath/{id}",
-     *   operationId="putUpdate",
+     *   operationId="putUpdateDummyModelClass",
      *   tags={"DummyTag"},
      *   summary="Update put DummyModelClass",
      *   description="Update put DummyModelClass",
@@ -370,7 +370,7 @@ class DummyClass extends BaseController
      * @return JsonResponse
      * @OA\Delete(
      *   path="/DummyPath/{id}",
-     *   operationId="destroy",
+     *   operationId="destroyDummyModelClass",
      *   tags={"DummyTag"},
      *   summary="Delete by id DummyModelClass",
      *   description="Delete by id DummyModelClass",
@@ -430,7 +430,7 @@ class DummyClass extends BaseController
      *
      * @OA\Delete(
      *   path="/DummyPath/uuid/{uuid}",
-     *   operationId="deleteByUuid",
+     *   operationId="deleteByUuidDummyModelClass",
      *   tags={"DummyTag"},
      *   summary="Delete by uuid DummyModelClass",
      *   description="Delete by uuid DummyModelClass",
@@ -490,7 +490,7 @@ class DummyClass extends BaseController
      *
      * @OA\Delete(
      *   path="/DummyPath/delete/ids",
-     *   operationId="deleteByIds",
+     *   operationId="deleteByIdsDummyModelClass",
      *   tags={"DummyTag"},
      *   summary="Delete by ids DummyModelClass",
      *   description="Delete by ids DummyModelClass",
@@ -552,7 +552,7 @@ class DummyClass extends BaseController
      * @return JsonResponse
      * @OA\Delete(
      *   path="/DummyPath/delete/uuids",
-     *   operationId="deleteByUuids",
+     *   operationId="deleteByUuidsDummyModelClass",
      *   tags={"DummyTag"},
      *   summary="Delete by uuids DummyModelClass",
      *   description="Delete by ids DummyModelClass",
