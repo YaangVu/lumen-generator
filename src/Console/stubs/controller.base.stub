@@ -39,43 +39,23 @@ class DummyClass extends BaseController
      * @OA\Get (
      *   tags={"DummyTag"},
      *   path="/DummyPath",
-     *   operationId="indexDummyModelClass",
+     *   operationId="getAllDummyModelClass",
      *   summary="Get all DummyModelClass",
      *   description="Get all DummyModelClass",
+     *   security={{ "Bearer":{} }},
      *   @OA\Parameter(
-     *     name="limit",
-     *     description="Limit",
-     *     required=false,
-     *     in="query",
-     *     @OA\Schema(
-     *        type="string",
-     *        default="10"
-     *     ),
+     *      ref="#/components/parameters/asset--limit",
      *   ),
      *   @OA\Parameter(
-     *     name="page",
-     *     description="Page",
-     *     required=false,
-     *     in="query",
-     *      @OA\Schema(
-     *        type="string",
-     *        default="1"
-     *      ),
+     *      ref="#/components/parameters/general--page",
      *   ),
      *   @OA\Parameter(
-     *     name="order_by",
-     *     description="Order by",
-     *     required=false,
-     *     in="query",
-     *     @OA\Schema(
-     *        type="string",
-     *        default="id ASC"
-     *     ),
+     *      ref="#/components/parameters/asset--order_by",
      *   ),
      *   @OA\Response(
      *      response=200,
      *      description="Success",
-     *     @OA\JsonContent(
+     *      @OA\JsonContent(
      *        allOf={
      *          @OA\Schema(ref="#/components/schemas/Pagination"),
      *          @OA\Schema(
@@ -123,22 +103,20 @@ class DummyClass extends BaseController
      *
      * @OA\Get(
      *    path="/DummyPath/{id}",
-     *    operationId="showDummyModelClass",
+     *    operationId="getByIdDummyModelClass",
      *    tags={"DummyTag"},
      *    summary="Get by id DummyModelClass",
      *    description="Get by id DummyModelClass",
+     *    security={{ "Bearer":{} }},
      *    @OA\Parameter(
-     *      name="id",
-     *      description="DummyModelClass id",
-     *      required=true,
-     *      in="path",
-     *      @OA\Schema(
-     *        type="integer"
-     *      )
+     *       ref="#/components/parameters/asset--sid",
      *    ),
      *   @OA\Response(
      *      response=200,
      *      description="Success",
+     *      @OA\JsonContent(
+     *          ref="#/components/schemas/DummyModelClass"
+     *      )
      *   ),
      *   @OA\Response(
      *      response=400,
@@ -180,10 +158,11 @@ class DummyClass extends BaseController
      *
      * @OA\Post(
      *   path="/DummyPath",
-     *   operationId="storeDummyModelClass",
+     *   operationId="addDummyModelClass",
      *   tags={"DummyTag"},
      *   summary="Add DummyModelClass",
      *   description="Add DummyModelClass",
+     *   security={{ "Bearer":{} }},
      *   @OA\RequestBody(
      *     required=true,
      *     @OA\MediaType(
@@ -240,18 +219,13 @@ class DummyClass extends BaseController
      *
      * @OA\Patch (
      *   path="/DummyPath/{id}",
-     *   operationId="updateDummyModelClass",
+     *   operationId="patchUpdateDummyModelClass",
      *   tags={"DummyTag"},
      *   summary="Update patch DummyModelClass",
      *   description="Update patch DummyModelClass",
+     *   security={{ "Bearer":{} }},
      *   @OA\Parameter(
-     *     name="id",
-     *     description="DummyModelClass id",
-     *     required=true,
-     *     in="path",
-     *      @OA\Schema(
-     *        type="string"
-     *      ),
+     *       ref="#/components/parameters/asset--sid",
      *   ),
      *   @OA\RequestBody(
      *     required=true,
@@ -310,14 +284,9 @@ class DummyClass extends BaseController
      *   tags={"DummyTag"},
      *   summary="Update put DummyModelClass",
      *   description="Update put DummyModelClass",
+     *   security={{ "Bearer":{} }},
      *   @OA\Parameter(
-     *     name="id",
-     *     description="DummyModelClass id",
-     *     required=true,
-     *     in="path",
-     *      @OA\Schema(
-     *        type="string"
-     *      )
+     *       ref="#/components/parameters/asset--sid",
      *   ),
      *   @OA\RequestBody(
      *     required=true,
@@ -370,18 +339,13 @@ class DummyClass extends BaseController
      * @return JsonResponse
      * @OA\Delete(
      *   path="/DummyPath/{id}",
-     *   operationId="destroyDummyModelClass",
+     *   operationId="deleteByIdDummyModelClass",
      *   tags={"DummyTag"},
      *   summary="Delete by id DummyModelClass",
      *   description="Delete by id DummyModelClass",
+     *   security={{ "Bearer":{} }},
      *   @OA\Parameter(
-     *     name="id",
-     *     description="DummyModelClass id",
-     *     required=true,
-     *     in="path",
-     *     @OA\Schema(
-     *       type="integer"
-     *     )
+     *     ref="#/components/parameters/asset--iid",
      *    ),
      *   @OA\Response(
      *      response=200,
@@ -434,14 +398,9 @@ class DummyClass extends BaseController
      *   tags={"DummyTag"},
      *   summary="Delete by uuid DummyModelClass",
      *   description="Delete by uuid DummyModelClass",
+     *   security={{ "Bearer":{} }},
      *   @OA\Parameter(
-     *     name="uuid",
-     *     description="DummyModelClass uuid",
-     *     required=true,
-     *     in="path",
-     *     @OA\Schema(
-     *       type="string"
-     *     )
+     *     ref="#/components/parameters/asset--uuid",
      *    ),
      *   @OA\Response(
      *      response=200,
@@ -494,16 +453,11 @@ class DummyClass extends BaseController
      *   tags={"DummyTag"},
      *   summary="Delete by ids DummyModelClass",
      *   description="Delete by ids DummyModelClass",
+     *   security={{ "Bearer":{} }},
      *   @OA\RequestBody(
      *     required=true,
      *     @OA\JsonContent(
-     *       required={"ids"},
-     *       @OA\Property(
-     *         type="array",
-     *         property="ids",
-     *         description="Template id",
-     *         @OA\Items(),
-     *       )
+     *          ref="#/components/schemas/propertyID",
      *      )
      *    ),
      *   @OA\Response(
@@ -556,16 +510,11 @@ class DummyClass extends BaseController
      *   tags={"DummyTag"},
      *   summary="Delete by uuids DummyModelClass",
      *   description="Delete by ids DummyModelClass",
+     *   security={{ "Bearer":{} }},
      *   @OA\RequestBody(
      *     required=true,
      *     @OA\JsonContent(
-     *       required={"uuids"},
-     *       @OA\Property(
-     *         type="array",
-     *         property="uuids",
-     *         description="Template uuid",
-     *         @OA\Items(),
-     *       )
+     *        ref="#/components/schemas/propertyUuid",
      *      )
      *    ),
      *   @OA\Response(
