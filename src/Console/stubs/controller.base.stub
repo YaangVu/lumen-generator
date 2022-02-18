@@ -539,7 +539,7 @@ class DummyClass extends BaseController
      *    ),
      *   @OA\Response(
      *      response=404,
-     *      description="Unauthorized"
+     *      description="Not found"
      *   ),
      *   @OA\Response(
      *      response=500,
