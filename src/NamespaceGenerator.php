@@ -14,7 +14,7 @@ class NamespaceGenerator
 {
     static protected array $commandReplacements
         = [
-            'Console', 'Controller', 'Service', 'Event', 'Exception', 'Request', 'Job', 'Listener', 'Mail',
+            'Console', 'Controller', 'Service', 'Events', 'Exception', 'Request', 'Jobs', 'Listeners', 'Mail',
             'Middleware', 'Pipe', 'Model', 'Policy', 'Provider', 'Serve', 'Test', 'Resource', 'Notification',
             'NotificationTable', 'Channel', 'SchemaDump', 'Cast', 'Rule', 'Factory'
         ];

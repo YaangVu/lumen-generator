@@ -3,6 +3,7 @@
 namespace YaangVu\LumenGenerator\Console;
 
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
@@ -15,9 +16,9 @@ abstract class GeneratorCommand extends Command
     /**
      * The filesystem instance.
      *
-     * @var \Illuminate\Filesystem\Filesystem
+     * @var Filesystem
      */
-    protected $files;
+    protected Filesystem $files;
 
     /**
      * The type of class being generated.
@@ -26,10 +27,12 @@ abstract class GeneratorCommand extends Command
      */
     protected $type;
 
+    static protected array $baseType = ['Model', 'Controller', 'Service', 'Job', 'Listener', 'Event'];
+
     /**
      * Create a new controller creator command instance.
      *
-     * @param \Illuminate\Filesystem\Filesystem $files
+     * @param Filesystem $files
      *
      * @return void
      */
@@ -50,8 +53,8 @@ abstract class GeneratorCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return bool|null
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     * @return bool|null|void
+     * @throws FileNotFoundException
      */
     public function handle()
     {
@@ -137,7 +140,13 @@ abstract class GeneratorCommand extends Command
      */
     protected function getPath($name)
     {
-        return $this->laravel->basePath() . '/' . NamespaceGenerator::getPath($name, $this->type);
+        if (in_array($this->type, self::$baseType))
+            return $this->laravel->basePath() . '/' . NamespaceGenerator::getPath($name, $this->type);
+        else {
+            $name = Str::replaceFirst($this->rootNamespace(), '', $name);
+
+            return $this->laravel['path'] . '/' . str_replace('\\', '/', $name) . '.php';
+        }
     }
 
     /**
@@ -163,7 +172,7 @@ abstract class GeneratorCommand extends Command
      * @param string $name
      *
      * @return string
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     * @throws FileNotFoundException
      */
     protected function buildClass($name)
     {
@@ -260,7 +269,7 @@ abstract class GeneratorCommand extends Command
      */
     protected function rootNamespace()
     {
-        if (in_array($this->type, ['Model', 'Controller', 'Service', 'Factory']))
+        if (in_array($this->type, self::$baseType))
             return NamespaceGenerator::$rootNamespace;
         else
             return $this->laravel->getNamespace();
