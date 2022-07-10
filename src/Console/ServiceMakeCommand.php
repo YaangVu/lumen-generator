@@ -11,7 +11,7 @@ class ServiceMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'make:service';
+    protected $name = 'yaang:service';
 
     /**
      * The console command description.

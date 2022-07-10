@@ -11,7 +11,7 @@ class NotificationMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'make:notification';
+    protected $name = 'yaang:notification';
 
     /**
      * The console command description.

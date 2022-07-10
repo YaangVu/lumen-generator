@@ -12,7 +12,7 @@ class SeederMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'make:seeder';
+    protected $name = 'yaang:seeder';
 
     /**
      * The console command description.

@@ -12,7 +12,7 @@ class ListenerMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'make:listener';
+    protected $name = 'yaang:listener';
 
     /**
      * The console command description.

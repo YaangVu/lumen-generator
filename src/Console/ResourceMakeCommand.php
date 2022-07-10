@@ -12,7 +12,7 @@ class ResourceMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'make:resource';
+    protected $name = 'yaang:resource';
 
     /**
      * The console command description.

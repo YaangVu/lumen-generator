@@ -9,7 +9,7 @@ class CastMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'make:cast';
+    protected $name = 'yaang:cast';
 
     /**
      * The console command description.

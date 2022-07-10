@@ -14,7 +14,7 @@ class ModelMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'make:model';
+    protected $name = 'yaang:model';
 
     /**
      * The console command description.
@@ -86,7 +86,7 @@ class ModelMakeCommand extends GeneratorCommand
         $factory    = $arrName['hasSub'] ? ($arrName['first'] . '/' . $arrName['last']) : $arrName['first'];
         $modelClass = NamespaceGenerator::generateFullNamespace($name, 'Model');
 
-        $this->call('make:factory', [
+        $this->call('yaang:factory', [
             'name'    => "{$factory}Factory",
             '--model' => $modelClass,
         ]);
@@ -105,7 +105,7 @@ class ModelMakeCommand extends GeneratorCommand
             $table = Str::singular($table);
         }
 
-        $this->call('make:migration', [
+        $this->call('yaang:migration', [
             'name'     => "create_{$table}_table",
             '--create' => $table,
         ]);
@@ -120,7 +120,7 @@ class ModelMakeCommand extends GeneratorCommand
     {
         $seeder = Str::studly(class_basename($this->argument('name')));
 
-        $this->call('make:seed', [
+        $this->call('yaang:seed', [
             'name' => "{$seeder}Seeder",
         ]);
     }
@@ -137,7 +137,7 @@ class ModelMakeCommand extends GeneratorCommand
         $controller = $arrName['hasSub'] ? ($arrName['first'] . '/' . $arrName['last']) : $arrName['first'];
         $modelClass = NamespaceGenerator::generateFullNamespace($name, 'Model');
 
-        $this->call('make:controller', array_filter([
+        $this->call('yaang:controller', array_filter([
                                                         'name'    => "{$controller}Controller",
                                                         '--model' => $this->option('resource') || $this->option('api') ? $modelClass : null,
                                                         '--api'   => $this->option('api'),
@@ -157,7 +157,7 @@ class ModelMakeCommand extends GeneratorCommand
         $service    = $arrName['hasSub'] ? ($arrName['first'] . '/' . $arrName['last']) : $arrName['first'];
         $modelClass = NamespaceGenerator::generateFullNamespace($name, 'Model');
 
-        $this->call('make:service', array_filter([
+        $this->call('yaang:service', array_filter([
                                                      'name'    => "{$service}Service",
                                                      '--model' => $modelClass,
                                                  ]));

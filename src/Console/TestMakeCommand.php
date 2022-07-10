@@ -11,7 +11,7 @@ class TestMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $signature = 'make:test {name : The name of the class}';
+    protected $signature = 'yaang:test {name : The name of the class}';
 
     /**
      * The console command description.

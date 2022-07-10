@@ -9,7 +9,7 @@ class PipeMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'make:pipe';
+    protected $name = 'yaang:pipe';
 
     /**
      * The console command description.

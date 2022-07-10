@@ -16,7 +16,7 @@ class ControllerMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'make:controller';
+    protected $name = 'yaang:controller';
 
     /**
      * The console command description.
@@ -113,7 +113,7 @@ class ControllerMakeCommand extends GeneratorCommand
 
         if (!class_exists($parentModelClass)) {
             if ($this->confirm("A $parentModelClass model does not exist. Do you want to generate it?", true)) {
-                $this->call('make:model', ['name' => $parentModelClass]);
+                $this->call('yaang:model', ['name' => $parentModelClass]);
             }
         }
 
@@ -144,7 +144,7 @@ class ControllerMakeCommand extends GeneratorCommand
 
         if (!class_exists($fullServiceClass)) {
             if ($this->confirm("A $fullServiceClass service does not exist. Do you want to generate it?", true)) {
-                $this->call('make:service', [
+                $this->call('yaang:service', [
                     'name'    => $service,
                     '--model' => $this->option('model') ? $this->option('model') : null
                 ]);

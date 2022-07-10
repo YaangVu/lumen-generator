@@ -1,9 +1,9 @@
 # Lumen Generator
 
-[![Total Downloads](https://poser.pugx.org/flipbox/lumen-generator/d/total.svg)](https://packagist.org/packages/flipbox/lumen-generator)
-[![Latest Stable Version](https://poser.pugx.org/flipbox/lumen-generator/v/stable.svg)](https://packagist.org/packages/flipbox/lumen-generator)
-[![Latest Unstable Version](https://poser.pugx.org/flipbox/lumen-generator/v/unstable.svg)](https://packagist.org/packages/flipbox/lumen-generator)
-[![License](https://poser.pugx.org/flipbox/lumen-generator/license.svg)](https://packagist.org/packages/flipbox/lumen-generator)
+[![Total Downloads](https://poser.pugx.org/yaangvu/lumen-generator/d/total.svg)](https://packagist.org/packages/yaangvu/lumen-generator)
+[![Latest Stable Version](https://poser.pugx.org/yaangvu/lumen-generator/v/stable.svg)](https://packagist.org/packages/yaangvu/lumen-generator)
+[![Latest Unstable Version](https://poser.pugx.org/yaangvu/lumen-generator/v/unstable.svg)](https://packagist.org/packages/yaangvu/lumen-generator)
+[![License](https://poser.pugx.org/yaangvu/lumen-generator/license.svg)](https://packagist.org/packages/yaangvu/lumen-generator)
 
 Do you miss any Laravel code generator on your Lumen project?
 If yes, then you're in the right place.
@@ -13,7 +13,7 @@ If yes, then you're in the right place.
 To use _some_ generators command in Lumen (just like you do in Laravel), you need to add this package:
 
 ```sh
-composer require flipbox/lumen-generator
+composer require yaangvu/lumen-generator
 ```
 
 ## Configuration
@@ -21,7 +21,7 @@ composer require flipbox/lumen-generator
 Inside your `bootstrap/app.php` file, add:
 
 ```php
-$app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+$app->register(YaangVu\LumenGeneratorServiceProvider::class);
 ```
 
 ## Available Command
@@ -29,28 +29,28 @@ $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 ```
 key:generate         Set the application key
 
-make:cast            Create a new custom Eloquent cast class
-make:channel         Create a new channel class
-make:command         Create a new Artisan command
-make:controller      Create a new controller class
-make:event           Create a new event class
-make:exception       Create a new custom exception class
-make:factory         Create a new model factory
-make:job             Create a new job class
-make:listener        Create a new event listener class
-make:mail            Create a new email class
-make:middleware      Create a new middleware class
-make:migration       Create a new migration file
-make:model           Create a new Eloquent model class
-make:notification    Create a new notification class
-make:pipe            Create a new pipe class
-make:policy          Create a new policy class
-make:provider        Create a new service provider class
-make:request         Create a new form request class
-make:resource        Create a new resource
-make:rule            Create a new rule
-make:seeder          Create a new seeder class
-make:test            Create a new test class
+yaang:cast            Create a new custom Eloquent cast class
+yaang:channel         Create a new channel class
+yaang:command         Create a new Artisan command
+yaang:controller      Create a new controller class
+yaang:event           Create a new event class
+yaang:exception       Create a new custom exception class
+yaang:factory         Create a new model factory
+yaang:job             Create a new job class
+yaang:listener        Create a new event listener class
+yaang:mail            Create a new email class
+yaang:middleware      Create a new middleware class
+yaang:migration       Create a new migration file
+yaang:model           Create a new Eloquent model class
+yaang:notification    Create a new notification class
+yaang:pipe            Create a new pipe class
+yaang:policy          Create a new policy class
+yaang:provider        Create a new service provider class
+yaang:request         Create a new form request class
+yaang:resource        Create a new resource
+yaang:rule            Create a new rule
+yaang:seeder          Create a new seeder class
+yaang:test            Create a new test class
 
 notifications:table  Create a migration for the notifications table
 

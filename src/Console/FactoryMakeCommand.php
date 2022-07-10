@@ -12,7 +12,7 @@ class FactoryMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'make:factory';
+    protected $name = 'yaang:factory';
 
     /**
      * The console command description.

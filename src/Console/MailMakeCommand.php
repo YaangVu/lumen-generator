@@ -11,7 +11,7 @@ class MailMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'make:mail';
+    protected $name = 'yaang:mail';
 
     /**
      * The console command description.

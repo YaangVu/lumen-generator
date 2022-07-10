@@ -9,7 +9,7 @@ class RuleMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'make:rule';
+    protected $name = 'yaang:rule';
 
     /**
      * The console command description.

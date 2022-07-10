@@ -11,7 +11,7 @@ class ExceptionMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'make:exception';
+    protected $name = 'yaang:exception';
 
     /**
      * The console command description.

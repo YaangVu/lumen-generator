@@ -9,7 +9,7 @@ class ProviderMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'make:provider';
+    protected $name = 'yaang:provider';
 
     /**
      * The console command description.

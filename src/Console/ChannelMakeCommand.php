@@ -9,7 +9,7 @@ class ChannelMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'make:channel';
+    protected $name = 'yaang:channel';
 
     /**
      * The console command description.

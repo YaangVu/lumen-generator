@@ -12,7 +12,7 @@ class PolicyMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'make:policy';
+    protected $name = 'yaang:policy';
 
     /**
      * The console command description.

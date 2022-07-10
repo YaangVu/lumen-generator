@@ -9,7 +9,7 @@ class RequestMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'make:request';
+    protected $name = 'yaang:request';
 
     /**
      * The console command description.

@@ -9,7 +9,7 @@ class EventMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'make:event';
+    protected $name = 'yaang:event';
 
     /**
      * The console command description.

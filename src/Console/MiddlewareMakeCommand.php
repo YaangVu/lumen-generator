@@ -9,7 +9,7 @@ class MiddlewareMakeCommand extends GeneratorCommand
      *
      * @var string
      */
-    protected $name = 'make:middleware';
+    protected $name = 'yaang:middleware';
 
     /**
      * The console command description.

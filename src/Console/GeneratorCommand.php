@@ -321,7 +321,7 @@ abstract class GeneratorCommand extends Command
 
         if (!class_exists($fullModelClass)) {
             if ($this->confirm("A $fullModelClass model does not exist. Do you want to generate it?", true)) {
-                $this->call('make:model', ['name' => $model]);
+                $this->call('yaang:model', ['name' => $model]);
             }
         }
 
