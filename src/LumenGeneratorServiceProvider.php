@@ -25,7 +25,7 @@ class LumenGeneratorServiceProvider extends ServiceProvider
             'Tinker'        => 'command.tinker',
             'RouteList'     => 'command.route.list',
             'ClearCompiled' => 'command.clear.compiled',
-            'Optimize'      => 'command.optimize',
+            // 'Optimize'      => 'command.optimize',
             'FactoryMake'   => 'command.factory.make',
         ];
 

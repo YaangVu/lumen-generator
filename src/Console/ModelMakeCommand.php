@@ -105,7 +105,7 @@ class ModelMakeCommand extends GeneratorCommand
             $table = Str::singular($table);
         }
 
-        $this->call('yaang:migration', [
+        $this->call('make:migration', [
             'name'     => "create_{$table}_table",
             '--create' => $table,
         ]);
@@ -120,7 +120,7 @@ class ModelMakeCommand extends GeneratorCommand
     {
         $seeder = Str::studly(class_basename($this->argument('name')));
 
-        $this->call('yaang:seed', [
+        $this->call('make:seed', [
             'name' => "{$seeder}Seeder",
         ]);
     }
